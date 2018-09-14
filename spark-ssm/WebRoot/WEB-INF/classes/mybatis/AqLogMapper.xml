@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.gft.app.dao.AqLogMapper">
+	<resultMap id="BaseResultMap" type="com.gft.spark.dto.AqLog">
+		<id column="id" property="id" jdbcType="VARCHAR" />
+		<result column="ip" property="ip" jdbcType="VARCHAR" />
+		<result column="visitcount" property="visitcount" jdbcType="INTEGER" />
+		<result column="visitdate" property="visitdate" jdbcType="DATE" />
+		<result column="updatetime" property="updatetime" jdbcType="TIMESTAMP" />
+		<result column="scrq" property="scrq" jdbcType="TIMESTAMP" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, ip, visitcount, visitdate, updatetime, scrq
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from aq_log
+		where id = #{id,jdbcType=VARCHAR}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from aq_log
+		where id = #{id,jdbcType=VARCHAR}
+	</delete>
+	<insert id="insert" parameterType="com.gft.spark.dto.AqLog">
+		insert into aq_log (id, ip, visitcount,
+		visitdate, updatetime, scrq
+		)
+		values (#{id,jdbcType=VARCHAR}, #{ip,jdbcType=VARCHAR},
+		#{visitcount,jdbcType=INTEGER},
+		#{visitdate,jdbcType=DATE}, #{updatetime,jdbcType=TIMESTAMP}, #{scrq,jdbcType=TIMESTAMP}
+		)
+	</insert>
+	
+	
+	
+	<insert id="insertByBatch" parameterType="java.util.List">
+		insert into aq_log (id, ip, visitcount,
+		visitdate, updatetime
+		)
+		values 
+		<foreach collection="list" item="log" separator=",">
+	        (#{log.id,jdbcType=VARCHAR}, #{log.ip,jdbcType=VARCHAR},
+			#{log.visitcount,jdbcType=INTEGER},
+			#{log.visitdate,jdbcType=DATE}, #{log.updatetime,jdbcType=TIMESTAMP}
+			)
+	    </foreach>
+		
+	</insert>
+	
+	
+	
+	<insert id="insertSelective" parameterType="com.gft.spark.dto.AqLog">
+		insert into aq_log
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="ip != null">
+				ip,
+			</if>
+			<if test="visitcount != null">
+				visitcount,
+			</if>
+			<if test="visitdate != null">
+				visitdate,
+			</if>
+			<if test="updatetime != null">
+				updatetime,
+			</if>
+			<if test="scrq != null">
+				scrq,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=VARCHAR},
+			</if>
+			<if test="ip != null">
+				#{ip,jdbcType=VARCHAR},
+			</if>
+			<if test="visitcount != null">
+				#{visitcount,jdbcType=INTEGER},
+			</if>
+			<if test="visitdate != null">
+				#{visitdate,jdbcType=DATE},
+			</if>
+			<if test="updatetime != null">
+				#{updatetime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="scrq != null">
+				#{scrq,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.gft.spark.dto.AqLog">
+		update aq_log
+		<set>
+			<if test="ip != null">
+				ip = #{ip,jdbcType=VARCHAR},
+			</if>
+			<if test="visitcount != null">
+				visitcount = #{visitcount,jdbcType=INTEGER},
+			</if>
+			<if test="visitdate != null">
+				visitdate = #{visitdate,jdbcType=DATE},
+			</if>
+			<if test="updatetime != null">
+				updatetime = #{updatetime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="scrq != null">
+				scrq = #{scrq,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where id = #{id,jdbcType=VARCHAR}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.gft.spark.dto.AqLog">
+		update aq_log
+		set ip = #{ip,jdbcType=VARCHAR},
+		visitcount = #{visitcount,jdbcType=INTEGER},
+		visitdate = #{visitdate,jdbcType=DATE},
+		updatetime = #{updatetime,jdbcType=TIMESTAMP},
+		scrq = #{scrq,jdbcType=TIMESTAMP}
+		where id = #{id,jdbcType=VARCHAR}
+	</update>
+</mapper>
